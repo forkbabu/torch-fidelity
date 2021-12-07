@@ -25,8 +25,7 @@ def glob_samples_paths(path, samples_find_deep, samples_find_ext, samples_ext_lo
     vassert(
         samples_ext_lossy is None or type(samples_ext_lossy) is str, 'Lossy sample extensions can be None or string'
     )
-    vprint(verbose, f'Looking for samples {"recursively" if samples_find_deep else "non-recursivelty"} in "{path}" '
-                    f'with extensions {samples_find_ext}')
+    vprint(verbose, f'')
     samples_find_ext = [a.strip() for a in samples_find_ext.split(',') if a.strip() != '']
     if samples_ext_lossy is not None:
         samples_ext_lossy = [a.strip() for a in samples_ext_lossy.split(',') if a.strip() != '']
@@ -45,14 +44,13 @@ def glob_samples_paths(path, samples_find_deep, samples_find_ext, samples_ext_lo
                 have_lossy = True
             files.append(os.path.realpath(os.path.join(r, f)))
     files = sorted(files)
-    vprint(verbose, f'Found {len(files)} samples'
-                    f'{", some are lossy-compressed - this may affect metrics" if have_lossy else ""}')
+    vprint(verbose, f'')
     return files
 
 
 def create_feature_extractor(name, list_features, cuda=True, **kwargs):
     vassert(name in FEATURE_EXTRACTORS_REGISTRY, f'Feature extractor "{name}" not registered')
-    vprint(get_kwarg('verbose', kwargs), f'Creating feature extractor "{name}" with features {list_features}')
+    vprint(get_kwarg('verbose', kwargs), f'')
     cls = FEATURE_EXTRACTORS_REGISTRY[name]
     feat_extractor = cls(name, list_features, **kwargs)
     feat_extractor.eval()
@@ -106,7 +104,7 @@ def get_featuresdict_from_dataset(input, feat_extractor, batch_size, cuda, save_
 
     out = None
 
-    with tqdm(disable=not verbose, leave=False, unit='samples', total=len(input), desc='Processing samples') as t, \
+    with tqdm(disable=not verbose, leave=False, unit='samples', total=len(input), desc='') as t, \
             torch.no_grad():
         for bid, batch in enumerate(dataloader):
             if cuda:
@@ -122,7 +120,7 @@ def get_featuresdict_from_dataset(input, feat_extractor, batch_size, cuda, save_
                 out = {k: out[k] + featuresdict[k] for k in out.keys()}
             t.update(batch.shape[0])
 
-    vprint(verbose, 'Processing samples')
+    vprint(verbose, '')
 
     out = {k: torch.cat(v, dim=0) for k, v in out.items()}
 
@@ -172,7 +170,7 @@ def get_featuresdict_from_generative_model(gen_model, feat_extractor, num_sample
                 out = {k: out[k] + featuresdict[k] for k in out.keys()}
             t.update(sz)
 
-    vprint(verbose, 'Processing samples')
+    vprint(verbose, '')
 
     out = {k: torch.cat(v, dim=0) for k, v in out.items()}
 
