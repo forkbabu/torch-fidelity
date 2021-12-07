@@ -112,7 +112,7 @@ def kid_features_to_metric(features_1, features_2, **kwargs):
         KEY_METRIC_KID_STD: float(np.std(mmds)),
     }
 
-    vprint(verbose, f'Kernel Inception Distance: {out[KEY_METRIC_KID_MEAN]} ± {out[KEY_METRIC_KID_STD]}')
+    vprint(verbose, f'Kernel Inception Distance: {out[KEY_METRIC_KID_MEAN]}')
 
     return out
 
