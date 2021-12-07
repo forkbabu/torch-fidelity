@@ -235,11 +235,11 @@ def calculate_metrics(**kwargs):
             metric_fid = fid_inputs_to_metric(feat_extractor, **kwargs)
             metrics.update(metric_fid)
         else:
-            vprint(verbose, f'Extracting features from input1')
+            vprint(verbose, f'')
             featuresdict_1 = extract_featuresdict_from_input_id_cached(1, feat_extractor, **kwargs)
             featuresdict_2 = None
             if input2 is not None:
-                vprint(verbose, f'Extracting features from input2')
+                vprint(verbose, f'')
                 featuresdict_2 = extract_featuresdict_from_input_id_cached(2, feat_extractor, **kwargs)
 
             if have_isc:
